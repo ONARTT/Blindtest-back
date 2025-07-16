@@ -1,0 +1,32 @@
+{
+  "name": "vgmtest-back",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node-dev --loader ts-node/esm ./server.ts",
+    "devv": "ts-node-dev --respawn server.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/yt-search": "^2.10.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "curl": "^0.1.4",
+    "express": "^5.1.0",
+    "yt-search": "^2.13.1"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.9",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.12",
+    "fs": "^0.0.1-security",
+    "node-dev": "^8.0.0",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3"
+  }
+}
