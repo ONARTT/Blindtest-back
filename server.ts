@@ -3,6 +3,7 @@ import cookierParser from 'cookie-parser';
 import * as fs from 'fs';
 import cors from 'cors';
 import ytSearch from 'yt-search'
+import videos from './videos.json';
 
 const app = express();
 const redirect_uri = 'http://127.0.0.1:3000/callback';
@@ -238,5 +239,27 @@ app.get('/search', async (req: Request, res: Response) => {
 
 
 app.get('/playlist', (req: Request, res: Response) => {
+    const playlist = [];
+    const final = []
+    const count = req.query.count;
+    const max = req.query.max;
 
+    if (typeof count === 'string' && typeof max === "string") {
+        while (playlist.length < parseInt(count)) {
+            const i = Math.floor(Math.random() * parseInt(max));
+            if (playlist.indexOf(i) == -1) {
+                playlist.push(i);
+            }
+        }
+    } else {
+        return res.status(400).send('Invalid or missing parameter');
+    }
+
+    for(let i = 0; i <= playlist.length; i++) {
+        final.push(videos[playlist[i]]);
+    }
+    
+    res.send(final);
 });
+    
+    
