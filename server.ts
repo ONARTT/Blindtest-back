@@ -31,6 +31,7 @@ interface TrackInfo  {
     artists: {
       name: string; // Artist name
     }[];
+    uri: string;
   };
 };
 
@@ -149,7 +150,7 @@ app.get('/callback', async (req: Request, res: Response) => {
 app.use(cookierParser());
 app.get("/library", async (req: Request, res: Response) => {
     const token = req.cookies['access_token'];
-    
+   
     const params = new URLSearchParams({
         limit: '50',
         offset: '0',
@@ -175,18 +176,23 @@ app.get("/library", async (req: Request, res: Response) => {
             },
         });
         
-        allData.push(data);
+        allData.push(await data);
         data = await response.json();
     }
-
+    console.log(allData)
     const allItems = allData.flatMap(page  => page.items.map(items => ({
         added_at: items.added_at,
         artist: items.track.artists[0].name,
         name: items.track.name,
         url: items.track.external_urls.spotify,
+        uri: items.track.uri,
+        
     })));
 
-    fs.writeFile('videos.json', JSON.stringify(allItems, null, 2), (err) => {
+   
+    res.send(allItems);
+
+     fs.writeFile('videos.json', JSON.stringify(allItems,null, 2), (err) => {
             if(err) {
                 console.error(err);
                 throw err;
@@ -194,7 +200,6 @@ app.get("/library", async (req: Request, res: Response) => {
 
             console.log('data written successfully');
         });
-    res.send(allItems);
 });
 
 
@@ -254,7 +259,7 @@ app.get('/playlist', (req: Request, res: Response) => {
     } else {
         return res.status(400).send('Invalid or missing parameter');
     }
-
+    
     for(let i = 0; i <= playlist.length; i++) {
         final.push(videos[playlist[i]]);
     }
